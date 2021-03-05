@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class Card : MonoBehaviour {
 
-	public string    suit;
+    [Header("Set Dynamically")]
+    public string    suit;
 	public int       rank;
 	public Color     color = Color.black;
 	public string    colS = "Black";  // or "Red"
