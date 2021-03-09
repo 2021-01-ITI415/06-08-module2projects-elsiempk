@@ -16,8 +16,71 @@ public class Card : MonoBehaviour {
 	public GameObject back;  // back of card;
 	public CardDefinition def;  // from DeckXML.xml		
 
+    // list of the spriterenderer components of this gameobject and its children
+    public SpriteRenderer[] spriteRenderers;
 
-	public bool faceUp {
+    
+    void Start()
+    {
+        SetSortOrder(0); // ensures that the card starts properly depth sorted
+    }
+
+    // if spriterenderers is not yet defined, this function defines it
+    public void PopulateSpriteRenderers()
+    {
+        // if spriterenderers is null or empty
+        if(spriteRenderers == null || spriteRenderers.Length == 0)
+        {
+            // get spriterenderer components of this gameobject and its children
+            spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        }
+    }
+
+    // sets the sortinglayername on all spriterenderer components
+    public void SetSortingLayerName(string tSLN)
+    {
+        PopulateSpriteRenderers();
+
+        foreach(SpriteRenderer tSR in spriteRenderers)
+        {
+            tSR.sortingLayerName = tSLN;
+        }
+    }
+
+    // sets the sortingOrder of all spriterenderer components
+    public void SetSortOrder(int sOrd)
+    {
+        PopulateSpriteRenderers();
+
+        // iterate through all the spriterenderers as tsr
+        foreach(SpriteRenderer tSR in spriteRenderers)
+        {
+            if(tSR.gameObject == this.gameObject)
+            {
+                // if the gameobject is this.gameobject, it's the background
+                tSR.sortingOrder = sOrd; // set its order to sOrd
+                continue; // and continue to the next iteration of the loop
+            }
+
+            // each of the children of this gameobject are named switch based on the names
+            switch(tSR.gameObject.name)
+            {
+                case "back": // if the name is "back"
+                    // set it to the highest layer to cover the other sprites
+                    tSR.sortingOrder = sOrd + 2;
+                    break;
+
+                case "face": // if the name is "face"
+                default: // or if it's anything else
+                    // set it to the middle layer to be above the background
+                    tSR.sortingOrder = sOrd + 1;
+                    break;
+            }
+        }
+    }
+
+
+    public bool faceUp {
 		get {
 			return (!back.activeSelf);
 		}
@@ -28,10 +91,7 @@ public class Card : MonoBehaviour {
 	}
 
 
-	// Use this for initialization
-	void Start () {
 	
-	}
 	
 	// Update is called once per frame
 	void Update () {
