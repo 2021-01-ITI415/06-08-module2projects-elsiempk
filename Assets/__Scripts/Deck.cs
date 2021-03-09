@@ -349,6 +349,8 @@ public class Deck : MonoBehaviour
     {
         List<Card> tCards = new List<Card>();
         int ndx;   // which card to move
+        tCards = new List<Card>(); // initialize the temporary list
+
         while (oCards.Count > 0)
         {
             // find a random card, add it to shuffled list and remove from original deck
