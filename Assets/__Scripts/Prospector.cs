@@ -105,11 +105,56 @@ public class Prospector : MonoBehaviour {
             tableau.Add(cp); // add this cardprospector to the list<> tableau
 
         }
+
+        // set which cards are hiding others
+        foreach(CardProspector tCP in tableau)
+        {
+            foreach(int hid in tCP.slotDef.hiddenBy)
+            {
+                cp = FindCardByLayoutID(hid);
+                tCP.hiddenBy.Add(cp);
+            }
+        }
+
         // set up the initial target card
         MoveToTarget(Draw());
 
         // set up the draw pile
         UpdateDrawPile();
+    }
+
+    // convert from the layoutID int to the cardprospector with that ID
+    CardProspector FindCardByLayoutID(int layoutID)
+    {
+        foreach(CardProspector tCP in tableau)
+        {
+            // search through all cards in the tableau List<>
+            if(tCP.layoutID == layoutID)
+            {
+                // if the card has the same ID, return it
+                return (tCP);
+            }
+        }
+        // if it's not found, return null
+        return (null);
+    }
+
+    // this turns cards in the mine face up or face down
+    void SetTableauFaces()
+    {
+        foreach(CardProspector cd in tableau)
+        {
+            bool faceUp = true; // assume the card will be face up
+            foreach(CardProspector cover in cd.hiddenBy)
+            {
+                // if either of the covering cards are in the tableau
+                if(cover.state == eCardState.tableau)
+                {
+                    faceUp = false; // then this card is face down
+                }
+            }
+            cd.faceUp = faceUp; // Set the value on the card
+        }
     }
 
     // moves the current target to the discardpile
@@ -196,8 +241,93 @@ public class Prospector : MonoBehaviour {
 
             case eCardState.tableau:
                 // clicking a card in the tableau will check if it's a valid play
+                bool validMatch = true;
+                if(!cd.faceUp)
+                {
+                    // if the card if face down, it's not valid
+                    validMatch = false;
+                }
+                if(!AdjacentRank(cd, target))
+                {
+                    // if it's not an adjacent rank, it's not valid
+                    validMatch = false;
+                }
+                if (!validMatch) return; // return if not valid
+
+                // if we got here, then: yay! it's a valid card
+                tableau.Remove(cd); // remove it from the tableau list
+                MoveToTarget(cd); // make it the target card
+                SetTableauFaces(); // update tableau card face ups
                 break;
         }
+        // check to see whether the game is over or not
+        CheckForGameOver();
+    }
+
+    // test whether the game is over
+    void CheckForGameOver()
+    {
+        // if the tableau is empty, the game is over
+        if(tableau.Count == 0)
+        {
+            // call gameover() with a win
+            GameOver(true);
+            return;
+        }
+
+        // if there are still cards int eh draw pile, the game's not over
+        if(drawPile.Count>0)
+        {
+            return;
+        }
+
+        // check for remaining valid players
+        foreach(CardProspector cd in tableau)
+        {
+            if(AdjacentRank(cd, target))
+            {
+                // if there is a valid play, the game's not over
+                return;
+            }
+        }
+
+        // since there are no valid plays, the game is over
+        // call gameover with a loss
+        GameOver(false);
+    }
+
+    // called when the game is over. simple for now, but expandable
+    void GameOver(bool won)
+    {
+        if(won)
+        {
+            print("Game Over. You won! :)");
+        }
+        else
+        {
+            print("Game Over. You lost. :(");
+        }
+        // reload the scene, resetting the game
+        SceneManager.LoadScene("__Prospector_Scene_0");
+    }
+
+    // return true if the two cards are adjacent in rank (A & K wrap around)
+    public bool AdjacentRank(CardProspector c0, CardProspector c1)
+    {
+        // if either card is face down, it's not adjacent
+        if (!c0.faceUp || !c1.faceUp) return (false);
+
+        // if they are 1 apart, they are adjacent
+        if(Mathf.Abs(c0.rank = c1.rank) == 1)
+        {
+            return (true);
+        }
+        // if one is ace and the other king, they are adjacent
+        if(c0.rank == 1 && c1.rank == 13) return (true);
+        if (c0.rank == 13 && c1.rank == 1) return (true);
+
+        // otherwise, return false
+        return (false);
     }
 
 }
