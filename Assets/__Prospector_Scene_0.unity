@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 760315895}
   - component: {fileID: 760315894}
   - component: {fileID: 760315896}
+  - component: {fileID: 760315897}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -283,8 +284,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deckXML: {fileID: 4900000, guid: c76312a0fb08948699e1abf935e4a957, type: 3}
   layoutXML: {fileID: 4900000, guid: 61f3f05951a2f4d98b35bddbc7549908, type: 3}
+  xOffset: 3
+  yOffset: -2.5
+  layoutCenter: {x: 0, y: 0, z: 0}
   deck: {fileID: 0}
   layout: {fileID: 0}
+  drawPile: []
+  layoutAnchor: {fileID: 0}
+  target: {fileID: 0}
+  tableau: []
+  discardPile: []
 --- !u!114 &760315896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,6 +337,21 @@ MonoBehaviour:
   - Row3
   - Discard
   - Draw
+--- !u!114 &760315897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760315890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e7a71d8352e3a94eb3486c9acfd0747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chain: 0
+  scoreRun: 0
+  score: 0
 --- !u!1 &1439063803
 GameObject:
   m_ObjectHideFlags: 0
