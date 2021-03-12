@@ -249,6 +249,9 @@ public class Prospector : MonoBehaviour {
             cd = drawPile[i];
             cd.transform.parent = layoutAnchor;
 
+            if (Random.Range(0, 100) < 10)
+                drawPile[i].isGoldCard = true;
+
             // Position it correctly with the layout.drawPile.stagger
             Vector2 dpStagger = layout.drawPile.stagger;
             cd.transform.localPosition = new Vector3(
@@ -279,13 +282,14 @@ public class Prospector : MonoBehaviour {
                 MoveToDiscard(target); // moves the target to the discardpile
                 MoveToTarget(Draw()); // moves the next drawn card to the target
                 UpdateDrawPile(); // restacks the drawPile
-                ScoreManager.EVENT(eScoreEvent.draw);
+                ScoreManager.EVENT(eScoreEvent.draw, false);
                 FloatingScoreHandler(eScoreEvent.draw);
                 break;
 
             case eCardState.tableau:
                 // clicking a card in the tableau will check if it's a valid play
                 bool validMatch = true;
+                CardProspector tempCardRef = target;
                 if(!cd.faceUp)
                 {
                     // if the card if face down, it's not valid
@@ -302,7 +306,8 @@ public class Prospector : MonoBehaviour {
                 tableau.Remove(cd); // remove it from the tableau list
                 MoveToTarget(cd); // make it the target card
                 SetTableauFaces(); // update tableau card face ups
-                ScoreManager.EVENT(eScoreEvent.mine);
+
+                ScoreManager.EVENT(eScoreEvent.mine, tempCardRef.isGoldCard);
                 FloatingScoreHandler(eScoreEvent.mine);
                 break;
         }
@@ -353,7 +358,7 @@ public class Prospector : MonoBehaviour {
             roundResultText.text = "You won this round!\nRound Score: "+score;
             ShowResultsUI(true);
             // print("Game Over. You won! :)");
-            ScoreManager.EVENT(eScoreEvent.gameWin);
+            ScoreManager.EVENT(eScoreEvent.gameWin, false);
             FloatingScoreHandler(eScoreEvent.gameWin);
         }
         else
@@ -370,7 +375,7 @@ public class Prospector : MonoBehaviour {
             }
             ShowResultsUI(true);
             //print("Game Over. You lost. :(");
-            ScoreManager.EVENT(eScoreEvent.gameLoss);
+            ScoreManager.EVENT(eScoreEvent.gameLoss, false);
             FloatingScoreHandler(eScoreEvent.gameLoss);
         }
         // reload the scene, resetting the game

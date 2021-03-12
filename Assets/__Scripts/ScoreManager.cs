@@ -48,12 +48,12 @@ public class ScoreManager : MonoBehaviour
         SCORE_FROM_PREV_ROUND = 0;
     }
 
-    static public void EVENT(eScoreEvent evt)
+    static public void EVENT(eScoreEvent evt, bool goldCard)
     {
         try
         {
             // try-catch stops an error from breaking your program
-            S.Event(evt);
+            S.Event(evt, goldCard);
         }
         catch(System.NullReferenceException nre)
         {
@@ -61,7 +61,7 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    void Event(eScoreEvent evt)
+    void Event(eScoreEvent evt, bool goldCard)
     {
         switch(evt)
         {
@@ -75,7 +75,15 @@ public class ScoreManager : MonoBehaviour
                 break;
 
             case eScoreEvent.mine: // remove a mine card
-                chain++; // increase the score chain
+                if(goldCard)
+                {
+                    chain += 2;
+                }
+                else
+                {
+                    chain++; // increase the  score chain
+                }
+                
                 scoreRun += chain; // add score for this card to run
                 break;
         }

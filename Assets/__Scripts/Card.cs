@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Card : MonoBehaviour {
 
+    public bool isGoldCard = false;
+
     [Header("Set Dynamically")]
     public string    suit;
 	public int       rank;
