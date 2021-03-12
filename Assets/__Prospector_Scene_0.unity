@@ -450,7 +450,23 @@ MonoBehaviour:
     xmlText: 
   cardNames: []
   cards: []
-  decorators: []
+  decorators:
+  - type: 
+    loc: {x: 0, y: 0, z: 0}
+    flip: 0
+    scale: 0
+  - type: 
+    loc: {x: 0, y: 0, z: 0}
+    flip: 0
+    scale: 0
+  - type: 
+    loc: {x: 0, y: 0, z: 0}
+    flip: 0
+    scale: 0
+  - type: 
+    loc: {x: 0, y: 0, z: 0}
+    flip: 0
+    scale: 0
   cardDefs: []
   deckAnchor: {fileID: 0}
 --- !u!114 &760315895
@@ -478,8 +494,8 @@ MonoBehaviour:
   gameOverText: {fileID: 0}
   roundResultText: {fileID: 0}
   highScoreText: {fileID: 0}
-  deck: {fileID: 0}
-  layout: {fileID: 0}
+  deck: {fileID: 760315894}
+  layout: {fileID: 760315896}
   drawPile: []
   layoutAnchor: {fileID: 0}
   target: {fileID: 0}
@@ -740,7 +756,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.825}
   m_AnchorMax: {x: 0.5, y: 0.825}
-  m_AnchoredPosition: {x: 0, y: -299}
+  m_AnchoredPosition: {x: 0, y: -160}
   m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1101518504

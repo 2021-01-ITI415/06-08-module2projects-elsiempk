@@ -16,6 +16,9 @@ public class Card : MonoBehaviour {
 	public GameObject back;  // back of card;
 	public CardDefinition def;  // from DeckXML.xml		
 
+
+   
+
     // list of the spriterenderer components of this gameobject and its children
     public SpriteRenderer[] spriteRenderers;
 
@@ -79,16 +82,18 @@ public class Card : MonoBehaviour {
         }
     }
 
+    public bool faceUp
+    {
+        get
+        {
+            return (!back.activeSelf);
+        }
 
-    public bool faceUp {
-		get {
-			return (!back.activeSelf);
-		}
-
-		set {
-			back.SetActive(!value);
-		}
-	}
+        set
+        {
+            back.SetActive(!value);
+        }
+    }
 
     // virtual methods can be overridden by subclass methods with the same name
     virtual public void OnMouseUpAsButton()

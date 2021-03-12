@@ -135,10 +135,7 @@ public class Prospector : MonoBehaviour {
             cp.faceUp = tSD.faceUp; // set its faceUp to the value in slotdef
             cp.transform.parent = layoutAnchor; // make its parent layoutanchor
             // this replaces the previous parent: deck.deckAnchor, which appears as _Deck in the hierarchy when the scene is playing
-            cp.transform.localPosition = new Vector3(
-                layout.multiplier.x * tSD.x,
-                layout.multiplier.y * tSD.y,
-                -tSD.layerID);
+            cp.transform.localPosition = new Vector3(layout.multiplier.x * tSD.x, layout.multiplier.y * tSD.y, -tSD.layerID);
             // ^ set the localposition of the card based on slotdef
             cp.layoutID = tSD.id;
             cp.slotDef = tSD;
@@ -202,66 +199,66 @@ public class Prospector : MonoBehaviour {
         }
     }
 
-    // moves the current target to the discardpile
+    // Moves the current target to the discardPile
     void MoveToDiscard(CardProspector cd)
     {
-        // set the state of the card to discard
+        // Set the state of the card to discard
         cd.state = eCardState.discard;
-        discardPile.Add(cd); // add it to the dicardpile list<>
-        cd.transform.parent = layoutAnchor; // update its transform parent
+        discardPile.Add(cd); // Add it to the discardPile List<>
+        cd.transform.parent = layoutAnchor; // Update its transform parent
 
-        // position this card on the discardpile
+        // Position this card on the discardPile
         cd.transform.localPosition = new Vector3(
             layout.multiplier.x * layout.discardPile.x,
             layout.multiplier.y * layout.discardPile.y,
             -layout.discardPile.layerID + 0.5f);
         cd.faceUp = true;
-        // place it on top of the pile for depth sorting
+        // Place it on top of te pile for depth sorting
         cd.SetSortingLayerName(layout.discardPile.layerName);
         cd.SetSortOrder(-100 + discardPile.Count);
     }
 
-    // make cd the new target card
+    // Make cd the new target card 
     void MoveToTarget(CardProspector cd)
     {
-        // if there is currently a target card, move it to discardpile
+        // If there is currently a target card, movie it to discardPile
         if (target != null) MoveToDiscard(target);
-        target = cd; // cd is the new target
+        target = cd; // cd is te new target
         cd.state = eCardState.target;
         cd.transform.parent = layoutAnchor;
 
-        // move to the target position
+        // Move to the target position
         cd.transform.localPosition = new Vector3(
             layout.multiplier.x * layout.discardPile.x,
             layout.multiplier.y * layout.discardPile.y,
             -layout.discardPile.layerID);
 
-        cd.faceUp = true; // make it face up
-        // set the depth sorting
+        cd.faceUp = true; // Make it face-up
+                          // Set the depth sorting
         cd.SetSortingLayerName(layout.discardPile.layerName);
         cd.SetSortOrder(0);
     }
 
-    // arranges all the cards of the drawpile to show how many are left
+    // Arranges all the cards of the drawPile to show how many are left
     void UpdateDrawPile()
     {
         CardProspector cd;
-        // go through all the cards of the drawpile
-        for(int i=0; i<drawPile.Count; i++)
+        // Go through all the cards of the drawPile
+        for (int i = 0; i < drawPile.Count; i++)
         {
             cd = drawPile[i];
             cd.transform.parent = layoutAnchor;
 
-            // position it correctly with the layout.drawpile.stagger
+            // Position it correctly with the layout.drawPile.stagger
             Vector2 dpStagger = layout.drawPile.stagger;
             cd.transform.localPosition = new Vector3(
                 layout.multiplier.x * (layout.drawPile.x + i * dpStagger.x),
                 layout.multiplier.y * (layout.drawPile.y + i * dpStagger.y),
                 -layout.drawPile.layerID + 0.1f * i);
 
-            cd.faceUp = false; // make them all face down
+            cd.faceUp = false; // Make them all face-down
             cd.state = eCardState.drawpile;
-            // set depth sorting
+            // Set depth sorting
             cd.SetSortingLayerName(layout.drawPile.layerName);
             cd.SetSortOrder(-10 * i);
         }
@@ -353,7 +350,7 @@ public class Prospector : MonoBehaviour {
         if(won)
         {
             gameOverText.text = "Round Over";
-            roundResultText.text = "You won this round! \nRound Score: " + score;
+            roundResultText.text = "You won this round!\nRound Score: "+score;
             ShowResultsUI(true);
             // print("Game Over. You won! :)");
             ScoreManager.EVENT(eScoreEvent.gameWin);
@@ -364,12 +361,12 @@ public class Prospector : MonoBehaviour {
             gameOverText.text = "Game Over";
             if(ScoreManager.HIGH_SCORE <= score)
             {
-                string str = "You got the high score! \nHigh score: " + score;
+                string str = "You got the high score!\nHigh score: "+score;
                 roundResultText.text = str;
             }
             else
             {
-                roundResultText.text = "Your final score was: " + score;
+                roundResultText.text = "Your final score was: "+score;
             }
             ShowResultsUI(true);
             //print("Game Over. You lost. :(");
@@ -397,7 +394,7 @@ public class Prospector : MonoBehaviour {
         if (!c0.faceUp || !c1.faceUp) return (false);
 
         // if they are 1 apart, they are adjacent
-        if(Mathf.Abs(c0.rank = c1.rank) == 1)
+        if(Mathf.Abs(c0.rank - c1.rank) == 1)
         {
             return (true);
         }

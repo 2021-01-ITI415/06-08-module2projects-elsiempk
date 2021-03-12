@@ -27,7 +27,7 @@ public class Scoreboard : MonoBehaviour
         set
         {
             _score = value;
-            _scoreString = _score.ToString("NO");
+            _scoreString = _score.ToString("N0");
         }
     }
 

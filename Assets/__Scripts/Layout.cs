@@ -72,7 +72,7 @@ public class Layout : MonoBehaviour
             {
                 // pull additional attributes based on the type of this <slot
                 case "slot":
-                    tSD.faceUp = (slotsX[i].att("faceup") == "l");
+                    tSD.faceUp = (slotsX[i].att("faceup") == "1");
                     tSD.id = int.Parse(slotsX[i].att("id"));
                     if(slotsX[i].HasAtt("hiddenby"))
                     {
