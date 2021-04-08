@@ -539,12 +539,19 @@ MonoBehaviour:
     type: slot
     stagger: {x: 0, y: 0}
   sortingLayerNames:
-  - Row0
-  - Row1
-  - Row2
-  - Row3
-  - Discard
-  - Draw
+  - slot0
+  - slot1
+  - slot2
+  - slot3
+  - slot4
+  - slot5
+  - slot6
+  - slot7
+  - slot8
+  - slot9
+  - slot10
+  - slot11
+  - slot12
 --- !u!114 &760315897
 MonoBehaviour:
   m_ObjectHideFlags: 0

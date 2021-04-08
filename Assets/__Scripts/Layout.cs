@@ -29,7 +29,7 @@ public class Layout : MonoBehaviour
     // this holds all of the possible names for the layers set by layerID
     public string[] sortingLayerNames = new string[]
     {
-        "Row0", "Row1","Row2", "Row3", "Discard", "Draw"
+        "slot0", "slot1","slot2", "slot3", "slot4", "slot5", "slot6", "slot7", "slot8", "slot9", "slot10", "slot11", "slot12", 
     };
 
     // this function is called to read in the layoutxml.xml file
